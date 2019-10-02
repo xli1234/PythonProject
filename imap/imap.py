@@ -30,12 +30,12 @@ apt_list = [
     'Royal York',
     'Oakland Apartments',
 ]
-addr_list = [
+addr_list = [ # replace with zip_list if needed
     '3955 Bigelow Blvd, Pittsburgh, PA 15213',
     '4629 Bayard St, Pittsburgh, PA 15213',
 ]
 
-# Map Helper
+# Map Data Scrapping
 def shortest_distance_time(arg):
     text = str(arg) # arg = bsyc
     end_idx = 0
@@ -61,17 +61,17 @@ def shortest_distance_time(arg):
         shortest_time = int(text[start_idx : end_idx]) # small bug, we are using new time not shortest_time if same shortest_distance
     return [shortest_distance, shortest_time]
 
-# Helper function to create query, open url, call parse api and output one data entry
+# Function to create query, open url, call parse api and return one data entry
 # Data Column format ['DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC']
 travel_mode = ['driving', 'walking', 'bicycling'] #, 'transit'] # do not support transit now, noise in sub-routes
-def goog_map(apt_name, apt_addr):
+def goog_map(apt, addr):
     goog_map_data = []
     for tm in travel_mode:
-        link = 'https://www.google.com/maps/dir/?api=1&origin='+(apt_name+' '+apt_addr).replace(' ','+')+'&destination=CMU&travelmode='+tm
+        link = 'https://www.google.com/maps/dir/?api=1&origin='+(apt+' '+addr).replace(' ','+')+'&destination=CMU&travelmode='+tm
         html = urlopen(link)
         bsyc = BeautifulSoup(html.read(), "lxml")
         time.sleep(5)
-        fout = open(apt_name+' '+tm+'.txt', 'wt',encoding='utf-8')
+        fout = open(apt+' '+tm+'.txt', 'wt',encoding='utf-8')
         fout.write(str(bsyc))
         fout.close()
         goog_map_data += shortest_distance_time(bsyc)
@@ -84,10 +84,8 @@ for apt,addr in zip(apt_list, addr_list):
     if apt in map_data.index:
         continue
     try:
-        # Read one data
-        apt_data = goog_map(apt, addr)
         # Add row to DataFrame
-        map_data.loc[apt] = apt_data
+        map_data.loc[apt] = goog_map(apt, addr)
     except:
         iprint('Unable to read more map. Save current data.')
         break
