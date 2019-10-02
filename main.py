@@ -9,9 +9,9 @@ sys.path.insert(1, crime_path)
 sys.path.insert(1, imap_path)
 
 # import individual modules
-import crime_final
+import crime_final as crime
 import imap
 
 # Example of using data from module
-print(crime_final.df2)
+print(crime.df2)
 print(imap.map_cache)
