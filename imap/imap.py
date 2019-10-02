@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # Modules
-import numpy as np
+import pandas as pd
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import time
@@ -17,51 +17,23 @@ def iprint(*args):
         print('')
 
 # Load
-map_file = str(Path(__file__).parent.absolute())+'/map_cache.npy'
-load = True
+filename = str(Path(__file__).parent.absolute())+'/map_cache.csv'
 try:
-    map_cache = np.load(map_file)
+    map_data = pd.read_csv(filename)
+    map_data = map_data.set_index('APT')
 except:
-    load = False
+    map_data = pd.DataFrame(columns=['DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC'])
+    map_data.index.name = 'APT'
     
-apt_file = 'apt_file.npy'
-try:
-    apt_list = np.load(apt_file) # update this to be compatible, load exported data from apt.py and filter here
-except:
-    apt_list = [
-        'Royal York',
-        'Oakland Apartments',
-        'Oak Hill Apartments',
-        'The Bridge on Forbes',
-        'Schenley Apartments',
-        'One on Centre',
-        'Portal Place',
-        'Devon Towers',
-        'Amberson Gardens',
-        'Webster Hall',
-        'Fairfax Apartments',
-        'Ambassador Apartments',
-        'North Windsor Apartments',
-        'Shadyside Commons',
-    ]
-    addr_list = [
-        '3955 Bigelow Blvd, Pittsburgh, PA 15213',
-        '4629 Bayard St, Pittsburgh, PA 15213',
-        '475 Garner Ct, Pittsburgh, PA 15213',
-        '3423 Forbes Ave, Pittsburgh, PA 15213',
-        '4101 Bigelow Blvd, Pittsburgh, PA 15213',
-        '4500 Centre Ave, Pittsburgh, PA 15213',
-        '2633 Fifth Ave, Pittsburgh, PA 15213',
-        '4920 CENTRE Ave, Pittsburgh, PA 15213',
-        '1-4 Bayard Rd, Pittsburgh, PA 15213',
-        '101 N Dithridge St, Pittsburgh, PA 15213',
-        '4614 5th Ave, Pittsburgh, PA 15213',
-        '4733 Centre Ave, Pittsburgh, PA 15213',
-        '234 Melwood Ave, Pittsburgh, PA 15213',
-        '401 Amberson Ave, Pittsburgh, PA 15232',
-    ]
-
-
+# import or use apt+address from apartment module
+apt_list = [
+    'Royal York',
+    'Oakland Apartments',
+]
+addr_list = [
+    '3955 Bigelow Blvd, Pittsburgh, PA 15213',
+    '4629 Bayard St, Pittsburgh, PA 15213',
+]
 
 # Map Helper
 def shortest_distance_time(arg):
@@ -89,13 +61,13 @@ def shortest_distance_time(arg):
         shortest_time = int(text[start_idx : end_idx]) # small bug, we are using new time not shortest_time if same shortest_distance
     return [shortest_distance, shortest_time]
 
-# Helper function to create query, open url, call parse api and output one data
-# Sample data: ['APT_NAM', 'DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC']
+# Helper function to create query, open url, call parse api and output one data entry
+# Data Column format ['DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC']
 travel_mode = ['driving', 'walking', 'bicycling'] #, 'transit'] # do not support transit now, noise in sub-routes
 def goog_map(apt_name, apt_addr):
-    goog_map_data = [apt_name]
+    goog_map_data = []
     for tm in travel_mode:
-        link = 'https://www.google.com/maps/dir/?api=1&origin=' +                (apt_name+' '+apt_addr).replace(' ', '+') +                '&destination=CMU&travelmode=' + tm
+        link = 'https://www.google.com/maps/dir/?api=1&origin='+(apt_name+' '+apt_addr).replace(' ','+')+'&destination=CMU&travelmode='+tm
         html = urlopen(link)
         bsyc = BeautifulSoup(html.read(), "lxml")
         time.sleep(5)
@@ -107,38 +79,21 @@ def goog_map(apt_name, apt_addr):
 
 
 # Search
-if load:
-    apt_cache = map_cache[:,0].tolist() #[map_cache[r][0] for r in range(len(map_cache))]
-else:
-    apt_cache = [] # also needed to avoid duplicates
-apt_data_list = [] # to store new apt_data
 for apt,addr in zip(apt_list, addr_list):
     # Data in cache, skip search
-    if apt in apt_cache:
+    if apt in map_data.index:
         continue
     try:
         # Read one data
         apt_data = goog_map(apt, addr)
-        # Add data
-        apt_data_list.append(apt_data)
-        # Avoid duplicate
-        apt_cache.append(apt)
+        # Add row to DataFrame
+        map_data.loc[apt] = apt_data
     except:
         iprint('Unable to read more map. Save current data.')
         break
 
-# Add new data to cache
-if apt_data_list:
-    if load:
-        map_cache = np.concatenate((map_cache, np.array(apt_data_list)), axis = 0)
-    else:
-        map_cache = np.array(apt_data_list)
-# else: do nothing to map_cache
-
-
 # Check current cache, old + new data
-iprint(map_cache)
+iprint(map_data)
 # Save all data
-np.save(map_file, map_cache)
-
+map_data.to_csv(filename)
 
