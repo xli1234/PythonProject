@@ -29,10 +29,12 @@ except:
 apt_list = [
     'Royal York',
     'Oakland Apartments',
+    'Oak Hill Apartments',
 ]
 addr_list = [ # replace with zip_list if needed
     '3955 Bigelow Blvd, Pittsburgh, PA 15213',
     '4629 Bayard St, Pittsburgh, PA 15213',
+    '3955 Bigelow Blvd, Pittsburgh, PA 15213',
 ]
 
 # Map Data Scrapping
