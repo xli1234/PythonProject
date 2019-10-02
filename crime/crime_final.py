@@ -7,39 +7,48 @@ Created on Mon Sep 23 00:01:34 2019
 
 # Import pandas
 import pandas as pd
+from pathlib import Path
+
+# settings
+filename = str(Path(__file__).parent.absolute())+'/Crime Data.xlsx'
+def iprint(*args):
+    if __name__ == '__main__':
+        for arg in args:
+            print(arg, end=' ')
+        print('')
 
 #read crime values
-df = pd.read_excel(r'C:/Users/trist/OneDrive/Documents/PYTHON/Final Project/Crime Data.xlsx', sheet_name='Crime-Cleaned') 
+df = pd.read_excel(filename, sheet_name='Crime-Cleaned') 
 
 #extract total crime
 zips= df.loc[df['ZipCode'] == 'All']
-#print(zips)
+#iprint(zips)
 zsums= zips.sum(axis = 0, skipna = True) 
 ztotal=zsums.iloc[2]
-#print(ztotal)
+#iprint(ztotal)
 
 #extract crime numbers by location
 oakland= df.loc[df['ZipCode'] == 15213]
-#print(oakland)
+#iprint(oakland)
 shadyside= df.loc[df['ZipCode'] == 15232]
-#print(shadyside)
+#iprint(shadyside)
 sqhill= df.loc[df['ZipCode'] == 15217]
-#print(sqhill)
+#iprint(sqhill)
 
 
 #Bar graph of top 3 crimes in each area
 o= oakland.loc[df['% of Total'] > .08]
-#print(o)
+#iprint(o)
 #produce bar graph of data
 ax_o = o.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='Top Crimes in Oakland from 2018 and 2019')
 
 ss= shadyside.loc[df['% of Total'] > .06]
-#print(ss)
+#iprint(ss)
 #produce bar graph of data
 ax_ss = ss.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='Top Crimes in Shadyside from 2018 and 2019')
 
 sh= sqhill.loc[df['% of Total'] > .08]
-#print(sh)
+#iprint(sh)
 #produce bar graph of data
 ax_sh = sh.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='Top Crimes in Squirrel Hill from 2018 and 2019')
 
@@ -47,46 +56,46 @@ ax_sh = sh.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='To
 #get totals by location 
 osums= oakland.sum(axis = 0, skipna = True) 
 ototal=osums.iloc[2]
-#print(ototal)
+#iprint(ototal)
 
 sssums= shadyside.sum(axis = 0, skipna = True) 
 sstotal=sssums.iloc[2]
-#print(sstotal)
+#iprint(sstotal)
 
 shsums= sqhill.sum(axis = 0, skipna = True) 
 shtotal=shsums.iloc[2]
-#print(shtotal)
+#iprint(shtotal)
 
 
 #make percentages by location 
 oper= ototal/ztotal
-#print(oper)
+#iprint(oper)
 
 ssper= sstotal/ztotal 
-#print(ssper)
+#iprint(ssper)
 
 shper= shtotal/ztotal
-#print(shper)
+#iprint(shper)
 
 
 #make summary table
 data= [[15213, "{:.2%}".format(oper)], [15232, "{:.2%}".format(ssper)], [15217, "{:.2%}".format(shper)]]
 df2 = pd.DataFrame(data, index= ['Oakland', 'ShadySide', 'Squirrel Hill'], columns = ['Zip Code', '% of Crime']) 
-print(df2)
+iprint(df2)
 
 
 
 
 
 #import time of day
-df2 = pd.read_excel(r'C:/Users/trist/OneDrive/Documents/PYTHON/Final Project/Crime Data.xlsx', sheet_name='Times-Cleaned') 
-#print(df2)
+df2 = pd.read_excel(filename, sheet_name='Times-Cleaned') 
+#iprint(df2)
 
 
 #extract crime numbers by location
 oakland2= df2.loc[df2['ZipCode'] == 15213]
-print(oakland2)
+iprint(oakland2)
 shadyside2= df2.loc[df2['ZipCode'] == 15232]
-print(shadyside2)
+iprint(shadyside2)
 sqhill2= df2.loc[df2['ZipCode'] == 15217]
-print(sqhill2)
+iprint(sqhill2)
