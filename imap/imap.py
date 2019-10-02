@@ -8,8 +8,7 @@ from bs4 import BeautifulSoup
 import time
 from pathlib import Path
 
-# Settings:
-
+# Settings
 def iprint(*args):
     if __name__ == '__main__':
         for arg in args:
@@ -19,9 +18,11 @@ def iprint(*args):
 # Load
 filename = str(Path(__file__).parent.absolute())+'/map_cache.csv'
 try:
+    # Get DataFrame from cache if any
     map_data = pd.read_csv(filename)
     map_data = map_data.set_index('APT')
 except:
+    # If no previous valid cache, let's begin with an empty DF
     map_data = pd.DataFrame(columns=['DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC'])
     map_data.index.name = 'APT'
     
@@ -37,7 +38,7 @@ addr_list = [ # replace with zip_list if needed
     '3955 Bigelow Blvd, Pittsburgh, PA 15213',
 ]
 
-# Map Data Scrapping
+# Map Data Scraping Function
 def shortest_distance_time(arg):
     text = str(arg) # arg = bsyc
     end_idx = 0
@@ -53,19 +54,24 @@ def shortest_distance_time(arg):
             start_idx -= 1
         end_idx = text.find(',', start_idx)
         distance = int(text[start_idx : end_idx])
-        if shortest_distance != 0 and distance > shortest_distance: # Only do shortest distance
-            end_idx = text.find(']', end_idx) # move cursor after 'mile'
+        # Only do shortest distance
+        if shortest_distance != 0 and distance > shortest_distance:
+            # move cursor after 'mile'
+            end_idx = text.find(']', end_idx)
             continue
         shortest_distance = distance
         # Get time for shortest distance
         start_idx = text.find('[', end_idx) + 1
         end_idx = text.find(',', start_idx)
-        shortest_time = int(text[start_idx : end_idx]) # small bug, we are using new time not shortest_time if same shortest_distance
+        # small bug, we are using new time not shortest_time if same shortest_distance
+        shortest_time = int(text[start_idx : end_idx])
     return [shortest_distance, shortest_time]
 
-# Function to create query, open url, call parse api and return one data entry
-# Data Column format ['DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC']
-travel_mode = ['driving', 'walking', 'bicycling'] #, 'transit'] # do not support transit now, noise in sub-routes
+# Let's not support transit now, noise in sub-routes
+travel_mode = ['driving', 'walking', 'bicycling'] #, 'transit']
+
+# Function to create query, open url, call scraping and return one data entry
+# One data entry contains value for ['DIS_DRI', 'TIM_DRI', ' DIS_WAL', 'TIM_WAL', 'DIS_BIC', 'TIM_BIC']
 def goog_map(apt, addr):
     goog_map_data = []
     for tm in travel_mode:
@@ -73,16 +79,17 @@ def goog_map(apt, addr):
         html = urlopen(link)
         bsyc = BeautifulSoup(html.read(), "lxml")
         time.sleep(5)
-        fout = open(apt+' '+tm+'.txt', 'wt',encoding='utf-8')
-        fout.write(str(bsyc))
-        fout.close()
+        # Save raw data if Professor asks for it
+        #fout = open(apt+' '+tm+'.txt', 'wt',encoding='utf-8')
+        #fout.write(str(bsyc))
+        #fout.close()
         goog_map_data += shortest_distance_time(bsyc)
     return goog_map_data
 
 
 # Search
 for apt,addr in zip(apt_list, addr_list):
-    # Data in cache, skip search
+    # Skip apt that exists in DF
     if apt in map_data.index:
         continue
     try:
@@ -92,8 +99,8 @@ for apt,addr in zip(apt_list, addr_list):
         iprint('Unable to read more map. Save current data.')
         break
 
-# Check current cache, old + new data
+# Check updated DF
 iprint(map_data)
-# Save all data
+# Save our DF
 map_data.to_csv(filename)
 
