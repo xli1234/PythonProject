@@ -53,9 +53,10 @@ def shortest_distance_time(arg):
         end_idx = text.find(' mile', end_idx+1)
         if end_idx == -1:
             break
-        start_idx = end_idx
-        while(text[start_idx-1] != '['):
-            start_idx -= 1
+        start_idx = text.rfind('[', 0, end_idx)+1
+        #start_idx = end_idx
+        #while(text[start_idx-1] != '['):
+        #    start_idx -= 1
         end_idx = text.find(',', start_idx)
         distance = int(text[start_idx : end_idx])
         # Only do shortest distance
