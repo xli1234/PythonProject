@@ -9,6 +9,7 @@ import time
 from pathlib import Path
 
 # Settings
+# Do not print if import as module
 def iprint(*args):
     if __name__ == '__main__':
         for arg in args:
@@ -41,7 +42,7 @@ addr_list = [ # replace with zip_list if needed
 ]
 
 # Map Data Scraping Function
-#pat = r'\[[0-9]*,\\"[0-9]* (?:ft|miles?)\\",[0-9]*\]\\n,\[[0-9]*,\\"[0-9]* min\\"\]'
+# Sample format [1987,\"1.2 miles\",1]\n,[366,\"6 min\"]
 def shortest_distance_time(arg):
     text = str(arg) # arg = bsyc
     end_idx = 0
@@ -58,7 +59,7 @@ def shortest_distance_time(arg):
         end_idx = text.find(',', start_idx)
         distance = int(text[start_idx : end_idx])
         # Only do shortest distance
-        if shortest_distance != 0 and distance > shortest_distance:
+        if shortest_distance != 0 and distance >= shortest_distance:
             # move cursor after 'mile'
             end_idx = text.find(']', end_idx)
             continue
@@ -66,9 +67,9 @@ def shortest_distance_time(arg):
         # Get time for shortest distance
         start_idx = text.find('[', end_idx) + 1
         end_idx = text.find(',', start_idx)
-        # small bug, we are using new time not shortest_time if same shortest_distance
+        # Assume google lists shorter time first for same distance
         shortest_time = int(text[start_idx : end_idx])
-    if shortest_distance == 0: # small bug for ft distance, tmp work around
+    if shortest_distance == 0: # too close, < 0.1 mile and unit is ft
         return ['< 160', 'FAST']
     return [shortest_distance, shortest_time]
 
