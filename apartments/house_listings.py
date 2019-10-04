@@ -5,7 +5,10 @@ zipcodes = ['15213', '15217', '15232'] # Required zip codes (USA only)
 import pandas as pd
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
+from pathlib import Path
 
+# CSV file path and name
+filename = str(Path(__file__).parent.absolute())+'/house_cache.csv'
 
 # Some essential functions
 def house_attr_list(soup, tag, css_identifier, find_children = False, child = 0, content_num = 0):
@@ -113,5 +116,5 @@ for z in zipcodes:
             # Form a DataFrame to be appended
             house_data = house_data.append(pd.DataFrame(house_info))
     
-# Export data to an Excel file in the current folder
-house_data.to_excel("House_data.xlsx", index = False)
+# Export data to a CSV file in the current folder
+house_data.to_csv(filename, index = False)
