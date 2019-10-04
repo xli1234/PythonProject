@@ -10,7 +10,7 @@ import webbrowser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from tempfile import NamedTemporaryFile
 
-
+# use a temporary-HTML renderer to display
 PORT = 1000 + int(random.random()*9000) # randomly generate a port number
 HOST = '127.0.0.1'
 SERVER_ADDRESS = '{host}:{port}'.format(host=HOST, port=PORT)
@@ -62,7 +62,7 @@ def map_visualize(apt_name='Royal York', apt_lat=40.453150, apt_lng=-79.953920, 
 	        incidents.add_child(
 	            folium.CircleMarker(
 	                [lat, lng],
-	                radius=5, # define how big you want the circle markers to be
+	                radius=5, # define how big the circle markers to be
 	                color='yellow',
 	                fill=True,
 	                fill_color='blue',
