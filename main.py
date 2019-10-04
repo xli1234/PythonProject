@@ -42,7 +42,19 @@ add_score()
 print('add apartment score: done')
 
 
-# call map_visualize
+# get user input
+print('1: Not at all important')
+print('2: Slightly Important')
+print('3: Important')
+print('4: Fairly Important')
+print('5: Very Important')
+weight_c = eval(input('Tell us how important is safety of the neighbourhood to you: ')) # weight for crime
+weight_r = eval(input('Then what about things to eat at your neighbourhood: ')) # weight for restaurant
+weight_t = eval(input('How important is the convenience of going school from home and back: ')) # weight for transportation
+print(type(weight_t))
+
+
+# call map_visualize()
 apt_name = 'Royal York'
 apt_lat = 40.453150
 apt_lng = -79.953920
