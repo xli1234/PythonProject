@@ -16,6 +16,7 @@ sys.path.insert(1, apt_path)
 # import individual modules
 import crime_final as crime
 import imap
+from apartment.add_geocode import add_geocode
 from restaurant.clean_restaurant import clean_restaurant
 from visualization.map_visualization import map_visualize
 
@@ -23,6 +24,11 @@ from visualization.map_visualization import map_visualize
 # Example of using data from module
 print(crime.df2)
 print(imap.map_data)
+
+
+# run add_geocode()
+add_geocode()
+print('add geocode: done')
 
 
 # run clean_restaurant()
