@@ -17,7 +17,7 @@ def add_geocode():
 		df.loc[i, 'lng'] = lng
 
 	# only save those with specific address
-	df[~(df.lat == '')].to_csv('apartment/house.csv')
+	df[~(df.lat == '')].to_csv('apartment/house.csv', index=False)
 
 
 # using google geocode api to get geocode of an house/apartment
