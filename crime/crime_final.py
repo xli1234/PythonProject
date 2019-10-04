@@ -12,8 +12,20 @@ import matplotlib as mpl
 mpl.style.use('ggplot')
 
 
+from pathlib import Path
+
+# settings
+filename = str(Path(__file__).parent.absolute())+'/crime.csv'
+def iprint(*args):
+    if __name__ == '__main__':
+        for arg in args:
+            print(arg, end=' ')
+        print('')
+
+
 #upload and combine csv files
 df = pd.concat(map(pd.read_csv, ['15213.csv', '15232.csv','15217.csv', 'Pgh.csv']))
+
 #format
 df.columns = ['Criminal Offense', 'Type', 'ZipCode','% of Total','Number of Crimes']
 df.astype({'% of Total': 'float'})
