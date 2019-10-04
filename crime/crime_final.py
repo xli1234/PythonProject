@@ -8,10 +8,7 @@ Created on Mon Sep 23 00:01:34 2019
 # Import 
 import pandas as pd
 import matplotlib as mpl
-
 mpl.style.use('ggplot')
-
-
 from pathlib import Path
 
 # settings
