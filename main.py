@@ -18,6 +18,7 @@ import crime_final as crime
 import imap
 from apartment.add_geocode import add_geocode
 from restaurant.clean_restaurant import clean_restaurant
+from visualization.add_score import add_score
 from visualization.map_visualization import map_visualize
 
 
@@ -34,6 +35,11 @@ print('add geocode: done')
 # run clean_restaurant()
 clean_restaurant()
 print('restaurant data clean: done')
+
+
+# run add_score()
+add_score()
+print('add apartment score: done')
 
 
 # call map_visualize
