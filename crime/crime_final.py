@@ -92,3 +92,5 @@ shper= shtotal/ztotal
 data= [[15213, "{:.2%}".format(oper)], [15232, "{:.2%}".format(ssper)], [15217, "{:.2%}".format(shper)]]
 df2 = pd.DataFrame(data, index= ['Oakland', 'ShadySide', 'Squirrel Hill'], columns = ['Zip Code', '% of Crime']) 
 print(df2)
+
+df2.to_csv(r'crime_output.csv')
