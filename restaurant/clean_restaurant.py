@@ -5,7 +5,7 @@
 import pandas as pd
 
 
-file_path = 'business.json' # downloaded from https://www.yelp.com/dataset
+file_path = 'restaurant/business.json' # downloaded from https://www.yelp.com/dataset
 f = open('business.json', 'r')
 i = 0
 cols = ['business_id', 'name', 'address', 'city', 'state', 'postal_code', 'latitude', 'longitude', 'stars', 'review_count', 'is_open', 'attributes', 'categories', 'hours']
