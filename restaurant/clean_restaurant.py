@@ -6,7 +6,7 @@ import pandas as pd
 
 def clean_restaurant():
     file_path = 'restaurant/business.json' # downloaded from https://www.yelp.com/dataset
-    f = open('business.json', 'r')
+    f = open(file_path, 'r')
     i = 0
     cols = ['business_id', 'name', 'address', 'city', 'state', 'postal_code', 'latitude', 'longitude', 'stars', 'review_count', 'is_open', 'attributes', 'categories', 'hours']
     df = pd.DataFrame(columns = cols)
