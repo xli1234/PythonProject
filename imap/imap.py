@@ -35,7 +35,7 @@ try:
     house_data = pd.read_csv(houseFile)
     apt_list = house_data['Street'].values
     zip_list = house_data['Zip'].values
-    addr_list = ['Pittsburgh, PA '+str(zip_list[i]) for i in range(len(zip_list))]
+    addr_list = ['Pittsburgh, PA '+str(zp) for zp in zip_list]
 except:
     # Hardcode if no export from apartment module
     apt_list = [
@@ -119,7 +119,7 @@ idx = 0
 for apt,addr in zip(apt_list, addr_list):
     idx += 1;
     # Skip invalid or searched apt
-    if ' Not ' in apt or 'bed' in apt or '$' in apt or apt in map_data.index:
+    if ' Not ' in apt or ' bed' in apt or '$' in apt or apt in map_data.index:
         continue
     try:
         # Add row to DataFrame
@@ -130,9 +130,7 @@ for apt,addr in zip(apt_list, addr_list):
         iprint('Unable to read more map. Save current data.')
         break
 
-# Check updated DF
-iprint('\nUpdating map_data done.')
-#iprint(map_data)
 # Save our DF
 map_data.to_csv(mapFile)
+iprint('\nUpdating map_data done.')
 
