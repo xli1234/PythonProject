@@ -1,0 +1,96 @@
+Criminal Offense,Type,ZipCode,% of Total,Number of Crimes
+Larceny Theft,Property Crime,15213,0.51,539
+Other assaults,Part II,15213,0.08,85
+Fraud,Part II,15213,0.08,80
+Vandalism,Part II,15213,0.06,65
+All Other Offenses,Part II,15213,0.05,51
+Disorderly Conduct,Part II,15213,0.04,40
+Burglary,Property Crime,15213,0.03,36
+Drunkenness,Part II,15213,0.03,27
+Robbery,Violent Crime,15213,0.03,27
+Drug Abuse Violations,Part II,15213,0.02,19
+Driving Under the Influence,Part II,15213,0.02,18
+Forgery and Counterfeiting,Part II,15213,0.02,18
+Motor Vehicle Theft,Property Crime,15213,0.02,18
+Liquor Laws,Part II,15213,0.01,11
+Sex Offenses (Except Forcible Rape and Prostitution),Part II,15213,0.01,7
+Assault,Violent Crime,15213,0.01,6
+"Stolen Property: Buying, Receiving, Possessing",Part II,15213,0.0,5
+Embezzlement,Part II,15213,0.0,4
+Offenses Against the Family and Children,Part II,15213,0.0,2
+Rape,Violent Crime,15213,0.0,1
+"Weapons: Carrying, Possessing, Etc",Part II,15213,0.0,1
+Larceny Theft,Property Crime,15232,0.38,512
+Fraud,Part II,15232,0.1,130
+Other assaults,Part II,15232,0.09,117
+All Other Offenses,Part II,15232,0.08,104
+Vandalism,Part II,15232,0.07,91
+Burglary,Property Crime,15232,0.07,88
+Disorderly Conduct,Part II,15232,0.05,66
+Drug Abuse Violations,Part II,15232,0.05,61
+Motor Vehicle Theft,Property Crime,15232,0.02,31
+Driving Under the Influence,Part II,15232,0.02,25
+Drunkenness,Part II,15232,0.02,21
+Robbery,Violent Crime,15232,0.01,19
+Forgery and Counterfeiting,Part II,15232,0.01,18
+Assault,Violent Crime,15232,0.01,12
+"Weapons: Carrying, Possessing, Etc",Part II,15232,0.01,10
+Sex Offenses (Except Forcible Rape and Prostitution),Part II,15232,0.01,8
+Liquor Laws,Part II,15232,0.0,6
+Prostitution and Commercialized Vice,Part II,15232,0.0,5
+Arson,Property Crime,15232,0.0,3
+Offenses Against the Family and Children,Part II,15232,0.0,3
+Rape,Violent Crime,15232,0.0,3
+Criminal Homicide,Violent Crime,15232,0.0,2
+Embezzlement,Part II,15232,0.0,2
+"Stolen Property: Buying, Receiving, Possessing",Part II,15232,0.0,2
+Larceny Theft,Property Crime,15217,0.38,595
+Vandalism,Part II,15217,0.1,162
+Other assaults,Part II,15217,0.09,149
+All Other Offenses,Part II,15217,0.07,118
+Burglary,Property Crime,15217,0.07,105
+Fraud,Part II,15217,0.05,84
+Liquor Laws,Part II,15217,0.05,72
+Disorderly Conduct,Part II,15217,0.04,69
+Robbery,Violent Crime,15217,0.02,37
+Drunkenness,Part II,15217,0.02,35
+Drug Abuse Violations,Part II,15217,0.02,30
+Forgery and Counterfeiting,Part II,15217,0.02,26
+Assault,Violent Crime,15217,0.01,21
+Driving Under the Influence,Part II,15217,0.01,17
+Sex Offenses (Except Forcible Rape and Prostitution),Part II,15217,0.01,17
+Motor Vehicle Theft,Property Crime,15217,0.01,16
+"Weapons: Carrying, Possessing, Etc",Part II,15217,0.01,11
+Rape,Violent Crime,15217,0.0,6
+Arson,Property Crime,15217,0.0,4
+Prostitution and Commercialized Vice,Part II,15217,0.0,3
+"Stolen Property: Buying, Receiving, Possessing",Part II,15217,0.0,3
+Runaways (Persons under age 18),Part II,15217,0.0,2
+Criminal Homicide,Violent Crime,15217,0.0,1
+Embezzlement,Part II,15217,0.0,1
+Offenses Against the Family and Children,Part II,15217,0.0,1
+Larceny Theft,Property Crime,Pgh,0.26,10310
+Other assaults,Part II,Pgh,0.16,6294
+Vandalism,Part II,Pgh,0.09,3750
+All Other Offenses,Part II,Pgh,0.09,3686
+Drug Abuse Violations,Part II,Pgh,0.06,2473
+Fraud,Property Crime,Pgh,0.05,2080
+Burglary,Part II,Pgh,0.05,2022
+Disorderly Conduct,Part II,Pgh,0.04,1492
+Assault,Property Crime,Pgh,0.03,1249
+Motor Vehicle Theft,Part II,Pgh,0.03,1080
+Robbery,Part II,Pgh,0.03,1037
+Drunkenness,Violent Crime,Pgh,0.02,910
+Driving Under the Influence,Part II,Pgh,0.02,764
+Forgery and Counterfeiting,Violent Crime,Pgh,0.01,540
+"Weapons: Carrying, Possessing, Etc",Part II,Pgh,0.01,539
+Sex Offenses (Except Forcible Rape and Prostitution),Part II,Pgh,0.01,330
+Liquor Laws,Part II,Pgh,0.01,266
+Prostitution and Commercialized Vice,Part II,Pgh,0.01,245
+"Stolen Property: Buying, Receiving, Possessing",Property Crime,Pgh,0.01,240
+Offenses Against the Family and Children,Part II,Pgh,0.0,162
+Arson,Violent Crime,Pgh,0.0,136
+Rape,Violent Crime,Pgh,0.0,129
+Criminal Homicide,Part II,Pgh,0.0,64
+Runaways (Persons under age 18),Part II,Pgh,0.0,63
+Embezzlement,Part II,Pgh,0.0,47
