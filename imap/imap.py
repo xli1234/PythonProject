@@ -8,7 +8,14 @@ from bs4 import BeautifulSoup
 import time
 from pathlib import Path
 
-# Settings
+# Files
+mapFile = str(Path(__file__).parent.absolute())+'/map_cache.csv'
+houseFile = str(Path(__file__).parent.absolute())+'/../apartment/house_cache.csv'
+
+# Let's not support transit now, noise in sub-routes
+travel_mode = ['driving', 'walking', 'bicycling'] #, 'transit']
+
+# Print wrapper function
 # Do not print if import as module
 def iprint(*args):
     if __name__ == '__main__':
@@ -16,40 +23,9 @@ def iprint(*args):
             print(arg, end=' ')
         print('')
 
-# Files
-mapFile = str(Path(__file__).parent.absolute())+'/map_cache.csv'
-houseFile = str(Path(__file__).parent.absolute())+'/../apartment/house_cache.csv'
-
-# Load map_data DF
-try:
-    # Get DataFrame from cache if any
-    map_data = pd.read_csv(mapFile)
-    map_data = map_data.set_index('APT')
-except:
-    # If no previous valid cache, let's begin with an empty DF
-    map_data = pd.DataFrame(columns=['DRIV_DIST', 'DRIV_TIME', ' WALK_DIST', 'WALK_TIME', 'BIKE_DIST', 'BIKE_TIME'])
-    map_data.index.name = 'APT'
-    
-# Load house_data DF exported from apartment module
-try:
-    house_data = pd.read_csv(houseFile)
-    apt_list = house_data['Street'].values
-    zip_list = house_data['Zip'].values
-    addr_list = ['Pittsburgh, PA '+str(zp) for zp in zip_list]
-except:
-    # Hardcode if no export from apartment module
-    apt_list = [
-        'Royal York',
-        'Oakland Apartments',
-        'Oak Hill Apartments',
-        'Wendover Apartments',
-    ]
-    addr_list = [ # replace with zip_list if needed
-        '3955 Bigelow Blvd, Pittsburgh, PA 15213',
-        '4629 Bayard St, Pittsburgh, PA 15213',
-        '475 Garner Ct Suite 215, Pittsburgh, PA 15213'
-        '5562 Hobart St, Pittsburgh, PA 15217',
-    ]
+# Apt validity check function
+def is_valid_apt(apt):
+    return not (' Not ' in apt or ' bed' in apt or '$' in apt)
 
 # Map Data Scraping Function
 # Sample format [1987,\"1.2 miles\",1]\n,[366,\"6 min\"]
@@ -81,9 +57,6 @@ def shortest_distance_time(arg):
         return ['< 160', 'FAST']
     return [shortest_distance, shortest_time]
 
-# Let's not support transit now, noise in sub-routes
-travel_mode = ['driving', 'walking', 'bicycling'] #, 'transit']
-
 # Function to create query, open url, call scraping and return one data entry
 def goog_map(apt, addr):
     goog_map_data = []
@@ -112,24 +85,58 @@ def goog_map(apt, addr):
         goog_map_data += shortest_distance_time(bsyc)
     return goog_map_data
 
-# Search
-iprint('Current map_data:')
-iprint(map_data)
-idx = 0
-for apt,addr in zip(apt_list, addr_list):
-    idx += 1;
-    # Skip invalid or searched apt
-    if ' Not ' in apt or ' bed' in apt or '$' in apt or apt in map_data.index:
-        continue
+# Main Search Function
+def imap_search():
+    # Load map_data DF
     try:
-        # Add row to DataFrame
-        iprint('Updating...(', idx,'/',len(apt_list),')')
-        map_data.loc[apt] = goog_map(apt, addr)
-        iprint(map_data.loc[apt].to_frame().T)
+        # Get DataFrame from cache if any
+        map_data = pd.read_csv(mapFile)
+        map_data = map_data.set_index('APT')
     except:
-        iprint('Unable to read more map. Save current data.')
-        break
+        # If no previous valid cache, let's begin with an empty DF
+        map_data = pd.DataFrame(columns=['DRIV_DIST', 'DRIV_TIME', ' WALK_DIST', 'WALK_TIME', 'BIKE_DIST', 'BIKE_TIME'])
+        map_data.index.name = 'APT'
+    # Load house_data DF exported from apartment module
+    try:
+        house_data = pd.read_csv(houseFile)
+        apt_list = house_data['Street'].values
+        zip_list = house_data['Zip'].values
+        addr_list = ['Pittsburgh, PA '+str(zp) for zp in zip_list]
+    except:
+        # Hardcode if no export from apartment module
+        apt_list = [
+            'Royal York',
+            'Oakland Apartments',
+            'Oak Hill Apartments',
+            'Wendover Apartments',
+        ]
+        addr_list = [ # replace with zip_list if needed
+            '3955 Bigelow Blvd, Pittsburgh, PA 15213',
+            '4629 Bayard St, Pittsburgh, PA 15213',
+            '475 Garner Ct Suite 215, Pittsburgh, PA 15213'
+            '5562 Hobart St, Pittsburgh, PA 15217',
+        ]
+    iprint('Current map_data:')
+    iprint(map_data)
+    idx = 0
+    for apt,addr in zip(apt_list, addr_list):
+        idx += 1;
+        # Only search for new and valid apt
+        if is_valid_apt(apt) and apt not in map_data.index:
+            try:
+                # Add row to DataFrame
+                iprint('Updating...(', idx,'/',len(apt_list),')')
+                map_data.loc[apt] = goog_map(apt, addr)
+                iprint(map_data.loc[apt].to_frame().T)
+            except:
+                iprint('Unable to read more map. Save current data.')
+                break
+    # Save our DF
+    map_data.to_csv(mapFile)
+    iprint('\nUpdating map_data done.')
+    return map_data
 
-# Save our DF
-map_data.to_csv(mapFile)
-iprint('\nUpdating map_data done.')
+# main
+if __name__ == '__main__':
+    imap_data = imap_search()
+    iprint(imap_data)
