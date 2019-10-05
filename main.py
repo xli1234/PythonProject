@@ -17,16 +17,21 @@ sys.path.insert(1, apt_path)
 # import crime_final as crime
 import imap
 from apartment.add_geocode import add_geocode
+from crime.crime_final import crime_stats
 from apartment.house_summary import summary_house
 from restaurant.clean_restaurant import clean_restaurant
 from visualization.add_score import add_score
-from visualization.calculate_score import calculate_score
+from visualization.calculate_score import get_top5
 from visualization.map_visualization import map_visualize
 
 
 # # Example of using data from module
 # print(crime.df2)
 # print(imap.map_data)
+
+
+# # run crime_stats()
+# crime_stats()
 
 
 # # run add_geocode()
@@ -44,11 +49,11 @@ from visualization.map_visualization import map_visualize
 # print('add apartment score: done')
 
 
-# get user input
+# # get user input
 # print('Areas nearby CMU:')
 # summary_house()
 # print('Enter areas to explore:')
-# print('Pittsburgh'.rjust(20) + ':  0')
+# print('All three areas'.rjust(20) + ':  0')
 # print('Oakland'.rjust(20) + ':  1')
 # print('Squirrel Hill'.rjust(20) + ':  2')
 # print('Shadyside'.rjust(20) + ':  3')
@@ -62,19 +67,15 @@ from visualization.map_visualization import map_visualize
 # weight_c = eval(input('Safety of the neighbourhood: ')) # weight for crime
 # weight_r = eval(input('Convenience to eat at the neighbourhood: ')) # weight for restaurant
 # weight_t = eval(input('Convenience of going school from home and back: ')) # weight for transportation
+# print('--------------------------------------------------------------------')
 # print('    1: Drive')
 # print('    2: Walk')
 # print('    3: Bike')
 # trans_choice = eval(input('How will travel from home to campus or back: '))
-# calculate_score(weight_c, weight_r, weight_t, area_choice, trans_choice)
-calculate_score(area_choice=3)
+# top5 = get_top5(weight_c, weight_r, weight_t, area_choice, trans_choice).reset_index
+top5 = print(get_top5(weight_c=1, area_choice=0))
+print(get_top5(weight_c=5, area_choice=0))
+print(get_top5(weight_c=3, area_choice=0))
 
-# # call map_visualize()
-# apt_name = 'Royal York'
-# apt_lat = 40.453150
-# apt_lng = -79.953920
-# crime_percentage = 0.398
-# distance = 1385
-# time = [366, 1006, 371]
-# map_visualize(apt_name=apt_name, apt_lat=apt_lat, apt_lng=apt_lng, 
-# 				crime=crime_percentage, distance=distance, time=time)
+# call map_visualize()
+map_visualize(top5)
