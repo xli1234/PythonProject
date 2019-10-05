@@ -23,11 +23,6 @@ def clean_restaurant():
     cols = ['name', 'address', 'city', 'state', 'postal_code', 'latitude', 'longitude', 'stars', 'review_count', 'is_open', 'categories']
     # only zip code in (15213, 15217, 15232)
     # save to csv format
-    df[((df.postal_code == '15213') | (df.postal_code == '15217') | (df.postal_code == '15232'))][cols].to_csv('restaurant/restaurant.csv', index = False) 
+    df[((df.postal_code == '15213') | (df.postal_code == '15217') | (df.postal_code == '15232'))][cols].to_csv('restaurant/restaurant.csv', index = False)
 
-
-
-
-
-
-
+    print('restaurant data clean: done')

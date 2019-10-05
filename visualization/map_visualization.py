@@ -52,7 +52,7 @@ def map_visualize(df_house):
 	cmu_map = folium.Map(location=[cmu_lat, cmu_lng], zoom_start=14)
 	
 	
-	folium.Marker([cmu_lat, cmu_lng], popup=cmu_name, color='yellow').add_to(cmu_map)
+	folium.Marker([cmu_lat, cmu_lng], popup=cmu_name, color='red').add_to(cmu_map)
 	for i in range(df_house.shape[0]):
 		# add pop-up text to the apartment on the map
 		Name = df_house.loc[i, 'Street']

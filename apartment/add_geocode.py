@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 
-def add_geocode():
+def add_geocode(key=None):
 	df = pd.read_csv('apartment/house_cache.csv')
 	df['lat'] = ''
 	df['lng'] = ''
@@ -15,19 +15,23 @@ def add_geocode():
 		if data['Street'] == 'Address Not Disclosed': # ignore house without address
 			# print(i)
 			continue
-		lat, lng = get_geocode(address)
-		df.loc[i, 'lat'] = lat
-		df.loc[i, 'lng'] = lng
-
+		try:
+			lat, lng = get_geocode(address, key)
+			df.loc[i, 'lat'] = lat
+			df.loc[i, 'lng'] = lng
+		except:
+			print('Something wrong with your key.')
+			return None
+	
 	# only save those with specific address
 	df[~(df.lat == '')].to_csv('apartment/house_geocode.csv', index=False)
-
+	
 	print('Success! Geocode data is now ready.')
 
 
+
 # using google geocode api to get geocode of an house/apartment
-def get_geocode(address):
-    key = 'the key'
+def get_geocode(address, key=None):
     address = address.replace(' ','+')
     url = 'https://maps.googleapis.com/maps/api/geocode/json?address={}&key={}'.format(address, key)
     r = requests.get(url)
