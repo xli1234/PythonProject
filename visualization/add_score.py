@@ -46,9 +46,9 @@ def add_score():
 			data_trans = df_transportation[df_transportation.APT == df_house.loc[i, 'Street']][['DRIV_TIME', 'WALK_TIME', 'BIKE_TIME']] # find transportation info for current apartment
 			# print(data_trans)
 			data_trans.values[0][0]
-			df_house.loc[i, 'trans_time_driv'] = round(int(data_trans.values[0][0])/60 * 2) / 2
-			df_house.loc[i, 'trans_time_walk'] = round(int(data_trans.values[0][1])/60 * 2) / 2
-			df_house.loc[i, 'trans_time_bike'] = round(int(data_trans.values[0][2])/60 * 2) / 2
+			df_house.loc[i, 'trans_time_driv'] = round(int(data_trans.values[0][0])/60 * 2) / 2 # rounded to the closest 0.5
+			df_house.loc[i, 'trans_time_walk'] = round(int(data_trans.values[0][1])/60 * 2) / 2 # rounded to the closest 0.5
+			df_house.loc[i, 'trans_time_bike'] = round(int(data_trans.values[0][2])/60 * 2) / 2 # rounded to the closest 0.5
 		except:
 			pass
 
