@@ -49,7 +49,7 @@ from visualization.map_visualization import map_visualize
 # print('add apartment score: done')
 
 
-# # get user input
+# get user input
 # print('Areas nearby CMU:')
 # summary_house()
 # print('Enter areas to explore:')
@@ -72,10 +72,12 @@ from visualization.map_visualization import map_visualize
 # print('    2: Walk')
 # print('    3: Bike')
 # trans_choice = eval(input('How will travel from home to campus or back: '))
-# top5 = get_top5(weight_c, weight_r, weight_t, area_choice, trans_choice).reset_index
-top5 = print(get_top5(weight_c=1, area_choice=0))
-print(get_top5(weight_c=5, area_choice=0))
-print(get_top5(weight_c=3, area_choice=0))
+# top5 = get_top5(weight_c, weight_r, weight_t, area_choice, trans_choice).reset_index(drop=True)
+top5 = get_top5(weight_c=1, area_choice=0).reset_index(drop=True)
+top5.to_csv('tmp.csv', index=False)
+# top5 = get_top5(weight_c=5, area_choice=0).reset_index(drop=True)
+# print(get_top5(weight_c=5, area_choice=0))
+# print(get_top5(weight_c=3, area_choice=0))
 
 # call map_visualize()
 map_visualize(top5)

@@ -17,78 +17,106 @@ SERVER_ADDRESS = '{host}:{port}'.format(host=HOST, port=PORT)
 FULL_SERVER_ADDRESS = 'http://' + SERVER_ADDRESS
 
 
-def map_visualize(apt_name='Royal York', apt_lat=40.453150, apt_lng=-79.953920, crime=0.398, distance=1385, time=[366, 1006, 371]):
+def map_visualize(df_house):
 	# location data for CMU (Pittsburgh)
 	cmu_name = 'CMU'
 	cmu_lat = 40.444229
 	cmu_lng = -79.943367
-	distance_km = distance/1000
-	time_drive = time[0]/60
-	time_walk = time[1]/60
-	time_bike = time[2]/60
+
 	
 	# load restaurant data
 	df_restaurant = pd.read_csv('restaurant/restaurant.csv')
 	print(df_restaurant.head())
 	
 	
-	# # get (latitude, longitude) from physical address
-	# def get_lat_lng(addr):
-	#     geolocator = Nominatim(user_agent="my-application")
-	#     try:
-	#         location = geolocator.geocode(addr)
-	#         lat = location.latitude
-	#         lng = location.longitude
-	#     except:
-	#         lat = 0
-	#         lng = 0
-	#     # print(lat, lng)   return (lat, lng)
-	
+	# Zip,
+	# Street,
+	# Region,
+	# Price,
+	# Bedrooms,
+	# Bathrooms,
+	# Floorspace,
+	# Pet_friendly,
+	# Furnished,
+	# lat,
+	# lng,
+	# crime_percentage,
+	# restaurant_num,
+	# restaurant_star,
+	# trans_time_driv,
+	# trans_time_walk,
+	# trans_time_bike
+
 	
 	# create map
 	cmu_map = folium.Map(location=[cmu_lat, cmu_lng], zoom_start=14)
 	
 	
-	# add pop-up text to the apartment on the map
-	folium.Marker([apt_lat, apt_lng], popup=apt_name).add_to(cmu_map)
 	folium.Marker([cmu_lat, cmu_lng], popup=cmu_name, color='yellow').add_to(cmu_map)
+	for i in range(df_house.shape[0]):
+		# add pop-up text to the apartment on the map
+		Name = df_house.loc[i, 'Street']
+		Region = df_house.loc[i, 'Region']
+		Price = df_house.loc[i, 'Price']
+		Bedrooms = df_house.loc[i, 'Bedrooms']
+		Bathrooms = df_house.loc[i, 'Bathrooms']
+		Floorspace = df_house.loc[i, 'Floorspace']
+		Pet_friendly = df_house.loc[i, 'Pet_friendly']
+		Furnished = df_house.loc[i, 'Furnished']
+		trans_time_driv = df_house.loc[i, 'trans_time_driv']
+		trans_time_walk = df_house.loc[i, 'trans_time_walk']
+		trans_time_bike = df_house.loc[i, 'trans_time_bike']
+		apt_lat = df_house.loc[i, 'lat']
+		apt_lng = df_house.loc[i, 'lng']
+		info = """{}, {}\nPrice: {}\nBedrooms: {}\nBathrooms: {}\nFloorspace: {}\nPet friendly: {}\nFurnished: {}\nNumber of restaurants: {}\nAverage star of restaurants: {:.2f}\n
+				""".format(df_house.loc[i,'Street'],
+						   df_house.loc[i,'Region'],
+						   df_house.loc[i,'Price'],
+						   df_house.loc[i,'Bedrooms'],
+						   df_house.loc[i,'Bathrooms'],
+						   df_house.loc[i,'Floorspace'],
+						   df_house.loc[i,'Pet_friendly'],
+						   df_house.loc[i,'Furnished'],
+						   df_house.loc[i,'restaurant_num'],
+						   df_house.loc[i,'restaurant_star'])
+		folium.Marker([apt_lat, apt_lng], popup=info).add_to(cmu_map)
 	
-	# instantiate a feattaure group for the restaurants in the dataframe
-	incidents = folium.map.FeatureGroup()
+		# instantiate a feattaure group for the restaurants in the dataframe
+		incidents = folium.map.FeatureGroup()
+		
+		# add each to the resurant feature group
+		for lat, lng, in zip(df_restaurant.latitude, df_restaurant.longitude):
+		    if abs(lat - apt_lat) < 0.005 and abs(lng - apt_lng) < 0.0025:
+		        incidents.add_child(
+		            folium.CircleMarker(
+		                [lat, lng],
+		                radius=5, # define how big the circle markers to be
+		                color='yellow',
+		                fill=True,
+		                fill_color='blue',
+		                fill_opacity=0.6
+		            )
+		        ) 
+		        
+		# add restaurants to map
+		cmu_map.add_child(incidents)
 	
-	# add each to the resurant feature group
-	for lat, lng, in zip(df_restaurant.latitude, df_restaurant.longitude):
-	    if abs(lat - apt_lat) < 0.005 and abs(lng - apt_lng) < 0.0025:
-	        incidents.add_child(
-	            folium.CircleMarker(
-	                [lat, lng],
-	                radius=5, # define how big the circle markers to be
-	                color='yellow',
-	                fill=True,
-	                fill_color='blue',
-	                fill_opacity=0.6
-	            )
-	        ) 
-	        
-	# add restaurants to map
-	cmu_map.add_child(incidents)
+	# # add legend of transportation&crime data to map
+	# legend_html =   '''
+	#                 <div style="position: fixed; 
+	#                             bottom: 50px; right: 50px; width: 310px; height:170px; 
+	#                             border:2px solid grey; z-index:9999; font-size:13px;
+	#                             backgroud:white
+	#                             ">&nbsp; <br>
+	#                               &nbsp;<font size="3" face="Verdana">{:0.1f} km to CMU</font> <br>
+	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:green"></i>Drive: {:0.2f}min &nbsp; <br>
+	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:red"></i>Walk: {:0.2f}min &nbsp; <br>
+	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:blue"></i>Bike: {:0.2f}min &nbsp; <br><br>
+	#                               &nbsp; <font size="3" face="Verdana">{:.2%} of the Crime was in this area </font>&nbsp; <br>
+	#                 </div>
+	#                 '''.format(distance_km, time_drive, time_walk, time_bike, crime)
 	
-	# add legend of transportation&crime data to map
-	legend_html =   '''
-	                <div style="position: fixed; 
-	                            bottom: 50px; right: 50px; width: 310px; height:170px; 
-	                            border:2px solid grey; z-index:9999; font-size:13px;
-	                            backgroud:white
-	                            ">&nbsp; <br>
-	                              &nbsp;<font size="3" face="Verdana">{:0.1f} km to CMU</font> <br>
-	                              &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:green"></i>Drive: {:0.2f}min &nbsp; <br>
-	                              &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:red"></i>Walk: {:0.2f}min &nbsp; <br>
-	                              &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:blue"></i>Bike: {:0.2f}min &nbsp; <br><br>
-	                              &nbsp; <font size="3" face="Verdana">{:.2%} of the Crime was in this area </font>&nbsp; <br>
-	                </div>
-	                '''.format(distance_km, time_drive, time_walk, time_bike, crime)
-	
-	cmu_map.get_root().html.add_child(folium.Element(legend_html))
+	# cmu_map.get_root().html.add_child(folium.Element(legend_html))
 
 	# save the visualization into the temp file and render it
 	tmp = NamedTemporaryFile()
