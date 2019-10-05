@@ -7,8 +7,10 @@ Created on Mon Sep 23 00:01:34 2019
 
 # Import 
 import pandas as pd
-import matplotlib as mpl
-mpl.style.use('ggplot')
+# import matplotlib as mpl
+# mpl.style.use('ggplot')
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 from pathlib import Path
 
 # settings
@@ -22,7 +24,7 @@ def iprint(*args):
 
 def crime_clean(*args): 
     #upload and combine csv files
-    df = pd.concat(map(pd.read_csv, ['15213.csv', '15232.csv','15217.csv', 'Pgh.csv']))
+    df = pd.concat(map(pd.read_csv, ['crime/15213.csv', 'crime/15232.csv','crime/15217.csv', 'crime/Pgh.csv']))
 
     #format
     df.columns = ['Criminal Offense', 'Type', 'ZipCode','% of Total','Number of Crimes']
@@ -35,7 +37,7 @@ def crime_clean(*args):
 
 
 def crime_stats(*args):
-    df = pd.concat(map(pd.read_csv, ['15213.csv', '15232.csv','15217.csv', 'Pgh.csv']))
+    df = pd.concat(map(pd.read_csv, ['crime/15213.csv', 'crime/15232.csv','crime/15217.csv', 'crime/Pgh.csv']))
 
     #format
     df.columns = ['Criminal Offense', 'Type', 'ZipCode','% of Total','Number of Crimes']
@@ -90,8 +92,8 @@ def crime_stats(*args):
 
 
     #make summary table
-    data= [[15213, "{:.2%}".format(oper)], [15232, "{:.2%}".format(ssper)], [15217, "{:.2%}".format(shper)]]
-    df2 = pd.DataFrame(data, index= ['Oakland', 'ShadySide', 'Squirrel Hill'], columns = ['Zip Code', '% of Crime']) 
-    print(df2)
+    data= [[15213, "{:f}".format(oper)], [15232, "{:f}".format(ssper)], [15217, "{:f}".format(shper)]]
+    df2 = pd.DataFrame(data, index= ['Oakland', 'ShadySide', 'Squirrel Hill'], columns = ['Zip', 'percentage_crime']) 
+    # print(df2)
 
-    df2.to_csv(r'crime_output.csv')
+    df2.to_csv(r'crime/crime_output.csv', index=False)
