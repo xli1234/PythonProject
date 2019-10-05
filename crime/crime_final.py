@@ -32,7 +32,9 @@ def crime_clean(*args):
     #print(df).
 
     #clean data saved to new csv
-    df.to_csv(r'crime_clean.csv', index=None)
+    df.to_csv(r'crime/crime_clean.csv', index=None)
+
+    print('Crime data cleaning: done.')
 
 
 
@@ -60,18 +62,21 @@ def crime_stats(*args):
     
     #produce bar graph of oakland
     ax_o = o.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='Top Crimes in Oakland from 2018 and 2019')
+    plt.show()
     
     ss= shadyside.loc[shadyside['% of Total'] >= .09]
     #print(ss)
 
     #produce bar graph of shadyside
     ax_ss = ss.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='Top Crimes in Shadyside from 2018 and 2019')
+    plt.show()
 
     sh= sqhill.loc[sqhill['% of Total'] > .08]
     #print(sh)
 
     #produce bar graph of squirrel hill
     ax_sh = sh.plot.bar(x='Criminal Offense', y='Number of Crimes', rot=0, title='Top Crimes in Squirrel Hill from 2018 and 2019')
+    plt.show()
 
 
     #get totals by location 

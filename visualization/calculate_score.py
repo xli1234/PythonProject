@@ -2,7 +2,7 @@ import pandas as pd
 import math
 
 def get_top5(weight_c=5, weight_r=5, weight_t=5, area_choice=0, trans_choice=2):
-	print(weight_c, weight_r, weight_t, area_choice, trans_choice)
+	# print(weight_c, weight_r, weight_t, area_choice, trans_choice)
 	df = pd.read_csv('visualization/house_score.csv')
 	w_c = weight_c / (weight_c+weight_r+weight_t)
 	w_r = weight_r / (weight_c+weight_r+weight_t)

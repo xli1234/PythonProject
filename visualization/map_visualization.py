@@ -26,7 +26,7 @@ def map_visualize(df_house):
 	
 	# load restaurant data
 	df_restaurant = pd.read_csv('restaurant/restaurant.csv')
-	print(df_restaurant.head())
+	# print(df_restaurant.head())
 	
 	
 	# Zip,
