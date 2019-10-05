@@ -27,7 +27,7 @@ def add_geocode():
 
 # using google geocode api to get geocode of an house/apartment
 def get_geocode(address):
-    key = 'AIzaSyCQW6dhk_l6iq6yQ2Y8l7V72YTwFhn75pI'
+    key = 'the key'
     address = address.replace(' ','+')
     url = 'https://maps.googleapis.com/maps/api/geocode/json?address={}&key={}'.format(address, key)
     r = requests.get(url)
