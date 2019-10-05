@@ -19,7 +19,6 @@ def get_top5(weight_c=5, weight_r=5, weight_t=5, area_choice=0, trans_choice=2):
 	df['n_trans_time_bike'] = df['trans_time_bike'].apply(lambda x: math.log(x+1)) # use natural log to smooth data first
 	df['n_trans_time_bike'] = normalize(df['n_trans_time_bike'])
 
-	df.to_csv('tmp.csv', index=False)
 	
 	# if user wants all three areas, use all houses
 	if area_choice == 0:
