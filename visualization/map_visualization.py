@@ -9,6 +9,7 @@ import subprocess
 import webbrowser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from tempfile import NamedTemporaryFile
+import os
 
 # use a temporary-HTML renderer to display
 PORT = 1000 + int(random.random()*9000) # randomly generate a port number
@@ -27,25 +28,6 @@ def map_visualize(df_house):
 	# load restaurant data
 	df_restaurant = pd.read_csv('restaurant/restaurant.csv')
 	# print(df_restaurant.head())
-	
-	
-	# Zip,
-	# Street,
-	# Region,
-	# Price,
-	# Bedrooms,
-	# Bathrooms,
-	# Floorspace,
-	# Pet_friendly,
-	# Furnished,
-	# lat,
-	# lng,
-	# crime_percentage,
-	# restaurant_num,
-	# restaurant_star,
-	# trans_time_driv,
-	# trans_time_walk,
-	# trans_time_bike
 
 	
 	# create map
@@ -100,30 +82,14 @@ def map_visualize(df_house):
 		        
 		# add restaurants to map
 		cmu_map.add_child(incidents)
-	
-	# # add legend of transportation&crime data to map
-	# legend_html =   '''
-	#                 <div style="position: fixed; 
-	#                             bottom: 50px; right: 50px; width: 310px; height:170px; 
-	#                             border:2px solid grey; z-index:9999; font-size:13px;
-	#                             backgroud:white
-	#                             ">&nbsp; <br>
-	#                               &nbsp;<font size="3" face="Verdana">{:0.1f} km to CMU</font> <br>
-	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:green"></i>Drive: {:0.2f}min &nbsp; <br>
-	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:red"></i>Walk: {:0.2f}min &nbsp; <br>
-	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:blue"></i>Bike: {:0.2f}min &nbsp; <br><br>
-	#                               &nbsp; <font size="3" face="Verdana">{:.2%} of the Crime was in this area </font>&nbsp; <br>
-	#                 </div>
-	#                 '''.format(distance_km, time_drive, time_walk, time_bike, crime)
-	
-	# cmu_map.get_root().html.add_child(folium.Element(legend_html))
 
 	# save the visualization into the temp file and render it
-	tmp = NamedTemporaryFile()
+	tmp = NamedTemporaryFile(mode='w', delete=False)
 	cmu_map.save(tmp.name)
 	with open(tmp.name) as f:
 	    folium_map_html = f.read()
 	
+	os.unlink(tmp.name) # delete tmp file, so no garbage remained after program ends
 	run_html_server(folium_map_html)
 
 
@@ -167,7 +133,7 @@ def TemproraryHttpServer(page_content_type, raw_data):
     page_content_type = page_content_type
 
     # kill a process, hosted on a localhost:PORT
-    subprocess.call(['fuser', '-k', '{0}/tcp'.format(PORT)])
+    subprocess.call(['fuser', '-k', '{0}/tcp'.format(PORT)], shell=True)
 
     # Started creating a temprorary http server.
     httpd = HTTPServer((HOST, PORT), HTTPServerRequestHandler)
