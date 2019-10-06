@@ -28,25 +28,6 @@ def map_visualize(df_house):
 	# load restaurant data
 	df_restaurant = pd.read_csv('restaurant/restaurant.csv')
 	# print(df_restaurant.head())
-	
-	
-	# Zip,
-	# Street,
-	# Region,
-	# Price,
-	# Bedrooms,
-	# Bathrooms,
-	# Floorspace,
-	# Pet_friendly,
-	# Furnished,
-	# lat,
-	# lng,
-	# crime_percentage,
-	# restaurant_num,
-	# restaurant_star,
-	# trans_time_driv,
-	# trans_time_walk,
-	# trans_time_bike
 
 	
 	# create map
@@ -101,7 +82,6 @@ def map_visualize(df_house):
 		        
 		# add restaurants to map
 		cmu_map.add_child(incidents)
-	
 
 	# save the visualization into the temp file and render it
 	tmp = NamedTemporaryFile(mode='w', delete=False)
@@ -110,7 +90,7 @@ def map_visualize(df_house):
 	with open(tmp.name) as f:
 	    folium_map_html = f.read()
 	
-	os.unlink(tmp.name) # delete the tmp file, so no garbage remained after the program ends
+	os.unlink(tmp.name) # delete tmp file, so no garbage remained after program ends
 	run_html_server(folium_map_html)
 
 

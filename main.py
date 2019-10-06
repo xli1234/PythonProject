@@ -109,14 +109,14 @@ while choice != 3:
 		if y_or_n == '':	
 			# run clean_restaurant()
 			clean_restaurant()
-			print('restaurant data clean: done')
 			
 		y_or_n = input('\n----------Add score for each apartment (Press Enter to continue)----------')
 		if y_or_n == '':
 			# run add_score()
 			add_score()
-			print('add apartment score: done')
+			
 
+	print('--------------------------------------------------------------------')
 	print('1. Exploring Apartments')
 	print('2. Setting')
 	print('3. Exit')

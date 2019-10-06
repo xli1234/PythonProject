@@ -55,3 +55,4 @@ def add_score():
 	# save the merged data to csv
 	df_house.to_csv('visualization/house_score.csv', index=False)
 
+	print('add apartment score: done')
