@@ -9,6 +9,7 @@ import subprocess
 import webbrowser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from tempfile import NamedTemporaryFile
+import os
 
 # use a temporary-HTML renderer to display
 PORT = 1000 + int(random.random()*9000) # randomly generate a port number
@@ -119,11 +120,13 @@ def map_visualize(df_house):
 	# cmu_map.get_root().html.add_child(folium.Element(legend_html))
 
 	# save the visualization into the temp file and render it
-	tmp = NamedTemporaryFile()
+	tmp = NamedTemporaryFile(mode='w', delete=False)
 	cmu_map.save(tmp.name)
+	tmp.close()
 	with open(tmp.name) as f:
 	    folium_map_html = f.read()
 	
+	os.unlink(tmp.name) # delete the tmp file, so no garbage remained after the program ends
 	run_html_server(folium_map_html)
 
 
@@ -167,7 +170,7 @@ def TemproraryHttpServer(page_content_type, raw_data):
     page_content_type = page_content_type
 
     # kill a process, hosted on a localhost:PORT
-    subprocess.call(['fuser', '-k', '{0}/tcp'.format(PORT)])
+    subprocess.call(['fuser', '-k', '{0}/tcp'.format(PORT)], shell=True)
 
     # Started creating a temprorary http server.
     httpd = HTTPServer((HOST, PORT), HTTPServerRequestHandler)
