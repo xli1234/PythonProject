@@ -70,7 +70,7 @@ def scrape_route():
     
     # Save our DF
     map_data.to_csv(mapFile)
-    print('\nUpdating map_data done.')
+    print('\nRoute data updated.')
 
 def shortest_distance_time(arg):
     text = str(arg) # arg = bsyc

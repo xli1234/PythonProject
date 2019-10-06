@@ -11,6 +11,7 @@ def clean_restaurant():
     cols = ['business_id', 'name', 'address', 'city', 'state', 'postal_code', 'latitude', 'longitude', 'stars', 'review_count', 'is_open', 'attributes', 'categories', 'hours']
     df = pd.DataFrame(columns = cols)
     df['attributes'] = df['attributes'].astype(str)
+    print('Please wait, this might take around 2 mins... ')
     for line in f.readlines():
         if '"city":"Pittsburgh"' in line:
     #         print(eval(line.strip().replace('null', '""')))
@@ -25,4 +26,4 @@ def clean_restaurant():
     # save to csv format
     df[((df.postal_code == '15213') | (df.postal_code == '15217') | (df.postal_code == '15232'))][cols].to_csv('restaurant/restaurant.csv', index = False)
 
-    print('restaurant data clean: done')
+    print('Restaurant data updated')

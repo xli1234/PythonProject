@@ -9,7 +9,7 @@ def add_geocode(key=None):
 	print('Fetching geocode using Google Map API\n')
 	for i in range(df.shape[0]):
 		if i % 25 == 0:
-			print(i, 'finished, ', df.shape[0]-i, 'waiting')
+			print(i, 'finished, ', df.shape[0]-i, 'remaining')
 		data = dict(df.loc[i])
 		address = data['Street'].split('#')[0].split('-')[0].strip() + ' Pittsburgh, PA ' + str(data['Zip'])
 		if data['Street'] == 'Address Not Disclosed': # ignore house without address

@@ -38,7 +38,7 @@ def get_top5(weight_c=5, weight_r=5, weight_t=5, area_choice=0, trans_choice=2):
 
 	df.sort_values('overall_score', ascending=False, inplace=True)
 
-	return df[['Zip','Street','Region','Price','Bedrooms','Bathrooms','Floorspace','Pet_friendly','Furnished','lat','lng','crime_percentage','restaurant_num','restaurant_star','trans_time_driv','trans_time_walk','trans_time_bike']].head()
+	return df[['Zip','Street','Region','Price','Bedrooms','Bathrooms','Floorspace','Pet_friendly','Furnished','lat','lng','crime_percentage','restaurant_num','restaurant_star','trans_time_driv','trans_time_walk','trans_time_bike', 'overall_score']].head()
 
 # use z-score to normalize data
 def normalize(df_col):
