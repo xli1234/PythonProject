@@ -40,6 +40,7 @@ print('2. Setting')
 print('3. Exit')
 choice = eval(input('Please enter number to choose: '))
 while choice != 3:
+	
 	if choice == 1:
 		# get user input
 		print('--------------------------------------------------------------------')

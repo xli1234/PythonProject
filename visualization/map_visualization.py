@@ -24,7 +24,7 @@ def map_visualize(df_house):
 	cmu_lat = 40.444229
 	cmu_lng = -79.943367
 
-	
+
 	# load restaurant data
 	df_restaurant = pd.read_csv('restaurant/restaurant.csv')
 	# print(df_restaurant.head())
