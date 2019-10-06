@@ -102,22 +102,6 @@ def map_visualize(df_house):
 		# add restaurants to map
 		cmu_map.add_child(incidents)
 	
-	# # add legend of transportation&crime data to map
-	# legend_html =   '''
-	#                 <div style="position: fixed; 
-	#                             bottom: 50px; right: 50px; width: 310px; height:170px; 
-	#                             border:2px solid grey; z-index:9999; font-size:13px;
-	#                             backgroud:white
-	#                             ">&nbsp; <br>
-	#                               &nbsp;<font size="3" face="Verdana">{:0.1f} km to CMU</font> <br>
-	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:green"></i>Drive: {:0.2f}min &nbsp; <br>
-	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:red"></i>Walk: {:0.2f}min &nbsp; <br>
-	#                               &nbsp;&nbsp;&nbsp; <i class="fa fa-map-marker fa-2x" style="color:blue"></i>Bike: {:0.2f}min &nbsp; <br><br>
-	#                               &nbsp; <font size="3" face="Verdana">{:.2%} of the Crime was in this area </font>&nbsp; <br>
-	#                 </div>
-	#                 '''.format(distance_km, time_drive, time_walk, time_bike, crime)
-	
-	# cmu_map.get_root().html.add_child(folium.Element(legend_html))
 
 	# save the visualization into the temp file and render it
 	tmp = NamedTemporaryFile(mode='w', delete=False)
