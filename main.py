@@ -135,8 +135,8 @@ while choice != 3:
 		print('--------------------------------------------------------------------')
 		y_or_n = input('\nAdd score for each apartment. (Press Enter to continue) ')
 		if y_or_n == '':
-			# run add_score()
-			add_score()
+			# run combine_data()
+			combine_data()
 			
 
 	print('--------------------------------------------------------------------')
