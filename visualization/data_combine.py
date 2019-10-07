@@ -1,6 +1,6 @@
 import pandas as pd
 
-def add_score():
+def combine_data():
 
 	df_house = pd.read_csv('apartment/house_geocode.csv')
 	df_restaurant = pd.read_csv('restaurant/restaurant.csv')
@@ -53,6 +53,6 @@ def add_score():
 			pass
 
 	# save the merged data to csv
-	df_house.to_csv('visualization/house_score.csv', index=False)
+	df_house.to_csv('visualization/house_combine.csv', index=False)
 
-	print('add apartment score: done')
+	print('Smart score has been updated.')
