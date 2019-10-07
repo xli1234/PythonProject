@@ -1,16 +1,4 @@
 # Project Apartment
-
-# add all directory paths
-# import sys
-# from pathlib import Path
-# crime_path = str(Path(__file__).parent.absolute()) + '/crime'
-# imap_path = str(Path(__file__).parent.absolute()) + '/imap'
-# rest_path = str(Path(__file__).parent.absolute()) + '/restaurant'
-# apt_path = str(Path(__file__).parent.absolute()) + '/apartment'
-# sys.path.insert(1, crime_path)
-# sys.path.insert(1, imap_path)
-# sys.path.insert(1, rest_path)
-# sys.path.insert(1, apt_path)
 import pandas as pd
 import numpy as np
 
@@ -25,7 +13,7 @@ from crime.crime_final import crime_stats
 
 from restaurant.clean_restaurant import clean_restaurant
 
-from visualization.add_score import add_score
+from visualization.data_combine import combine_data
 from visualization.calculate_score import get_top5
 from visualization.map_visualization import map_visualize
 
@@ -157,5 +145,3 @@ while choice != 3:
 	print('    2. Settings')
 	print('    3. Exit')
 	choice = eval(input('Please enter your choice: '))
-
-
