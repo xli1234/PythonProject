@@ -1,27 +1,37 @@
-# Project Apartment
+# Project EZ-Apart
+"""
+@author:
+Animish Andraskar: aandrask@andrew.cmu.edu
+May Li: xumeil@andrew.cmu.edu
+Trista Pierce: tlpierce@andrew.cmu.edu
+Xiaobin Shen: xiaobins@andrew.cmu.edu
+"""
 import pandas as pd
 import numpy as np
 
 # import individual modules
+# Route data
 from imap.scrape_route import scrape_route
+# Apartment listing sand geocode
 from apartment.house_listings import scrape_house_data
 from apartment.add_geocode import add_geocode
 from apartment.house_summary import summary_house
-
+# Crime data
 from crime.crime_final import crime_clean
 from crime.crime_final import crime_stats
-
+# Restaurant data
 from restaurant.clean_restaurant import clean_restaurant
-
+# Visualizations
 from visualization.data_combine import combine_data
 from visualization.calculate_score import get_top5
 from visualization.map_visualization import map_visualize
 
+# Get the length of the longest value in a column for formatting the table neatly
 def get_longest_length(series):
 	longest_length = 0
 	for v in list(series):
-		if len(v.split(',')[0].strip()) > longest_length:
-			longest_length = len(v.split(',')[0].strip())
+		if len(str(v).split(',')[0].strip()) > longest_length:
+			longest_length = len(str(v).split(',')[0].strip())
 	return longest_length
 
 # # Example of using data from module
@@ -75,17 +85,19 @@ while choice != 3:
 		top5 = get_top5(weight_c, weight_r, weight_t, area_choice, trans_choice).reset_index(drop=True).replace(np.nan, '')
 		length_street = get_longest_length(top5['Street'])
 		length_region = get_longest_length(top5['Region'])
+		length_price = get_longest_length(top5['Price'])
+		length_bed = max(get_longest_length(top5['Bedrooms']), 4)
 		print('Here\'s our top 5 recommendation for you:')
-		print('Zip'.rjust(7),'Street'.rjust(length_street+1),'Region'.rjust(length_region+4),'Price'.rjust(8),
-				'Beds'.rjust(8),'Baths'.rjust(5),'Size'.rjust(7),
+		print('Zip'.rjust(7),'Street'.rjust(length_street+1),'Region'.rjust(length_region+4),'Price'.rjust(length_price+3),
+				'Beds'.rjust(length_bed+4),'Baths'.rjust(6),'Size'.rjust(7),
 				'Pet friendly'.rjust(13),'Furnished'.rjust(10), 'Smart score'.rjust(12))
 		for i in range(5):
 			print(str(top5[cols].iloc[i, 0]).rjust(7)
 				, str(top5[cols].iloc[i, 1]).rjust(length_street+1)
 				, str(top5[cols].iloc[i, 2]).split(',')[0].rjust(length_region+4)
-				, str(top5[cols].iloc[i, 3]).rjust(8)
-				, str(top5[cols].iloc[i, 4]).rjust(5)
-				, str(top5[cols].iloc[i, 5]).rjust(8)
+				, str(top5[cols].iloc[i, 3]).rjust(length_price+3)
+				, str(top5[cols].iloc[i, 4]).rjust(length_bed+4)
+				, str(top5[cols].iloc[i, 5]).rjust(6)
 				, str(top5[cols].iloc[i, 6]).rjust(7)
 				, str(top5[cols].iloc[i, 7]).rjust(13)
 				, str(top5[cols].iloc[i, 8]).rjust(10)
